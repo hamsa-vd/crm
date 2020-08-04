@@ -17,7 +17,7 @@ function Register() {
 			delete body.checkPassword;
 			console.log(body);
 			setLoading(true);
-			const data = await axios.post('https://hava-chat.herokuapp.com/api/register', body);
+			const data = await axios.post('https://hava-crm.herokuapp.com/api/register', body);
 			setLoading(false);
 			if (data.data.status) {
 				toast.success(data.data.msg);

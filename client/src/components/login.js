@@ -14,7 +14,7 @@ function Login() {
 	const onLogin = async (formdata) => {
 		if (!Object.keys(errors).length) {
 			setLoading(true);
-			// const data = await Axios.post('https://hava-chat.herokuapp.com/api/login', formdata);
+			// const data = await Axios.post('https://hava-crm.herokuapp.com/api/login', formdata);
 			const data = await Axios.post('http://localhost:4200/api/login', formdata);
 			setLoading(false);
 			if (data.data.status) {
@@ -24,6 +24,10 @@ function Login() {
 				history.push('/dashboard');
 			} else toast.error(data.data.msg);
 		}
+	};
+	const guestLogin = (e) => {
+		localStorage.setItem('token', Math.random().toString(36).substring(7));
+		localStorage.setItem('username', 'guest');
 	};
 	return (
 		<div>
@@ -67,16 +71,16 @@ function Login() {
 								{errors.password &&
 								errors.password.type === 'required' && <small>password is required</small>}
 							</div>
-							<button type="submit" className="btn btn-outline-light px-4">
+							<button type="submit" className="btn btn-outline-light px-4 mt-3">
 								<RiLoginCircleLine className="mr-1" size={'1.2rem'} />login
 							</button>
 							<Link to="/forgot">
-								<button className="btn btn-outline-light px-4">
+								<button className="btn btn-outline-light px-4 mt-3">
 									<GiArrowed className="mr-1" size={'1.2rem'} />forgot password
 								</button>
 							</Link>
 							<Link to="/dashboard">
-								<button className="btn btn-outline-light px-4">
+								<button className="btn btn-outline-light px-4 mt-3" onClick={guestLogin}>
 									<RiUser3Line className="mr-1" size={'1.2rem'} /> Guest
 								</button>
 							</Link>

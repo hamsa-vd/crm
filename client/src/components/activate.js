@@ -8,7 +8,7 @@ function Activate() {
 	useEffect(
 		() => {
 			(async () => {
-				const data = await Axios.get(`https://hava-chat.herokuapp.com/api/activate/${id}`);
+				const data = await Axios.get(`https://hava-crm.herokuapp.com/api/activate/${id}`);
 				if (data.data.status) toast.success(data.data.msg);
 				else toast.error(data.data.msg);
 				setRedirect(true);

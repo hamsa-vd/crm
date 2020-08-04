@@ -14,7 +14,7 @@ function Passchange() {
 	const handleSubmit = async () => {
 		if (pass && pass === changepass) {
 			setLoading(true);
-			const data = await Axios.post('https://hava-chat.herokuapp.com/api/changepass', { password: pass, id });
+			const data = await Axios.post('https://hava-crm.herokuapp.com/api/changepass', { password: pass, id });
 			setLoading(false);
 			if (data.data.status) toast.success(data.data.msg);
 			else toast.error(data.data.msg);

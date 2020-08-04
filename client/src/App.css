@@ -1,3 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+.App {
+  font-family: 'Roboto', sans-serif;
+}
+
 .App .parent_register .container-fluid {
   display: -ms-grid;
   display: grid;
@@ -41,7 +46,9 @@
   display: grid;
   min-height: 100vh;
   place-items: center;
-  background-color: rgba(3, 3, 37, 0.507);
+  background-color: #000000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 400'%3E%3Cdefs%3E%3CradialGradient id='a' cx='396' cy='281' r='514' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23dd88cf'/%3E%3Cstop offset='1' stop-color='%23000000'/%3E%3C/radialGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='400' y1='148' x2='400' y2='333'%3E%3Cstop offset='0' stop-color='%23f3ffda' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23f3ffda' stop-opacity='0.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='800' height='400'/%3E%3Cg fill-opacity='0.5'%3E%3Ccircle fill='url(%23b)' cx='267.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='532.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='400' cy='30' r='300'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
 }
 
 .App .home_parent a {
@@ -103,264 +110,29 @@
           transform: scale(0.8);
 }
 
-.App .parent-chat .top {
-  background-color: #aaf;
-  color: white;
-  -webkit-box-shadow: 0 0 2rem -1rem black;
-          box-shadow: 0 0 2rem -1rem black;
+.App .dashboard-parent {
+  min-height: 100vh;
+  padding-top: 2rem;
+  background-color: #dcf0e1;
 }
 
-.App .parent-chat .top nav {
-  padding: 0.2rem 1rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+.App .dashboard-parent .sub > .row {
+  margin-top: 5rem;
 }
 
-.App .parent-chat .top nav h4 {
-  text-transform: capitalize;
+.App .dashboard-parent .sub > .row button {
+  -webkit-box-shadow: 0.5px 0.5px 1px;
+          box-shadow: 0.5px 0.5px 1px;
 }
 
-.App .parent-chat .top nav ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  list-style-type: none;
-}
-
-.App .parent-chat .top nav ul li {
-  border-radius: 1rem;
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-
-.App .parent-chat .top nav ul li:hover {
-  background-color: white;
-  color: #aaf;
-  cursor: pointer;
-}
-
-.App .parent-chat .top nav ul li:active {
-  -webkit-box-shadow: 0px 0px 1rem -0.25rem black;
-          box-shadow: 0px 0px 1rem -0.25rem black;
-}
-
-.App .parent-chat .choose {
-  margin-top: 1rem;
-  -webkit-box-shadow: 0 0 2rem -1rem #aff;
-          box-shadow: 0 0 2rem -1rem #aff;
-}
-
-.App .parent-chat .choose > div {
-  height: 85vh;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.App .parent-chat .choose .col-4 header {
-  border-radius: 5px;
-  background-color: whitesmoke;
-}
-
-.App .parent-chat .choose .col-4 header nav {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.App .parent-chat .choose .col-4 header nav .link {
-  margin-top: 0.3rem;
-  text-align: center;
-  padding: 0.5rem 0px;
-}
-
-.App .parent-chat .choose .col-4 header nav .link + .link {
-  border-left: 1px solid #477696;
-}
-
-.App .parent-chat .choose .col-4 header nav .link:hover, .App .parent-chat .choose .col-4 header nav .link.active {
-  background-color: #477696;
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.App .parent-chat .choose .col-8 {
-  background-color: whitesmoke;
-}
-
-.App .selected-parent {
-  padding: 0px;
-}
-
-.App .selected-parent header {
-  position: absolute;
-  background-color: #bbabce;
-  top: 0px;
-  right: 0px;
-  left: 0px;
-  padding: 0.5rem 3rem;
-}
-
-.App .selected-parent header h4 {
-  font-size: 1.2rem;
-  color: white;
-}
-
-.App .selected-parent main {
-  overflow-y: scroll;
-  scrollbar-width: none;
-  padding: 3rem 2rem;
-}
-
-.App .selected-parent main::-webkit-scrollbar {
-  width: 2px;
-  background-color: white;
-}
-
-.App .selected-parent main::-webkit-scrollbar-thumb {
-  background: lightseagreen;
-}
-
-.App .selected-parent main p {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  font-size: medium;
-  font-weight: 600;
-}
-
-.App .selected-parent main p sup {
-  display: block;
-  -webkit-filter: brightness(50%);
-          filter: brightness(50%);
-}
-
-.App .selected-parent main p span {
-  padding: 0.2rem 1rem;
+.App .dashboard-parent .sub > .row .card {
   border-radius: 0.5rem;
-  margin: 0.5rem 0;
-}
-
-.App .selected-parent main p.left {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  text-align: left;
-}
-
-.App .selected-parent main p.left span {
-  background-color: #8595ad;
-  color: white;
-}
-
-.App .selected-parent main p.left sup {
-  color: #8595ad;
-}
-
-.App .selected-parent main p.middle {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  text-align: center;
-}
-
-.App .selected-parent main p.middle span {
-  color: black;
-}
-
-.App .selected-parent main p.right {
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  text-align: right;
-}
-
-.App .selected-parent main p.right span {
-  background-color: rgba(17, 216, 17, 0.596);
-  color: white;
-}
-
-.App .selected-parent main p.right sup {
-  color: rgba(17, 216, 17, 0.596);
-}
-
-.App .selected-parent footer {
-  position: absolute;
-  bottom: -15px;
-  background-color: whitesmoke;
-  z-index: 1;
-}
-
-.App .category-parent {
-  overflow-y: scroll;
-  scrollbar-width: none;
-}
-
-.App .category-parent::-webkit-scrollbar {
-  width: 2px;
-  background-color: white;
-}
-
-.App .category-parent::-webkit-scrollbar-thumb {
-  background: lightseagreen;
-}
-
-.App .category-parent ul {
-  padding: 1rem 0.5rem;
-  list-style-type: none;
-}
-
-.App .category-parent ul li .col-12 {
-  cursor: pointer;
-  padding: 0.5rem;
-  margin: 0.5rem;
-  font-size: 1.3rem;
-  text-align: center;
-  border-radius: 1rem;
-  color: rgba(2, 23, 49, 0.562);
-  background-color: white;
-}
-
-.App .category-parent ul li .col-12:hover {
-  color: rgba(2, 23, 49, 0.562);
-  background: linear-gradient(-135deg, rgba(0, 0, 0, 0.192), rgba(255, 255, 255, 0.438), rgba(255, 255, 255, 0.438), rgba(0, 0, 0, 0.192));
-  -webkit-box-shadow: 0 0 2rem -1rem rgba(2, 23, 49, 0.562);
-          box-shadow: 0 0 2rem -1rem rgba(2, 23, 49, 0.562);
-}
-
-.App .category-parent ul li .col-12:active {
-  color: rgba(2, 23, 49, 0.562);
-  background-color: white;
-  -webkit-box-shadow: 0 0 2rem -1rem rgba(2, 23, 49, 0.562);
-          box-shadow: 0 0 2rem -1rem rgba(2, 23, 49, 0.562);
-}
-
-.App .category-parent ul li .active {
-  color: white;
-  background-color: rgba(2, 23, 49, 0.562);
+  padding: 0.5rem 1rem;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  -webkit-box-shadow: 1px 1px 0.1rem, -1px -1px 0.1rem rgba(0, 0, 0, 0.205);
+          box-shadow: 1px 1px 0.1rem, -1px -1px 0.1rem rgba(0, 0, 0, 0.205);
 }
 
 .App .loading {

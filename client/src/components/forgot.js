@@ -12,7 +12,7 @@ function Forgot() {
 		if (email) {
 			console.log(email);
 			setLoading(true);
-			const data = await Axios.post('https://hava-chat.herokuapp.com/api/forgot', { email });
+			const data = await Axios.post('https://hava-crm.herokuapp.com/api/forgot', { email });
 			setLoading(false);
 			if (data.data.status) toast.success('mail sent ' + data.data.msg);
 			else toast.error(data.data.msg);
