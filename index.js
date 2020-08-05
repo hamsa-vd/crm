@@ -22,15 +22,15 @@ app.post('/api/removeuser', tokenAuth, require('./server/routes/removeuser'));
 
 app.get('/api/getdetails', tokenAuth, require('./server/routes/getdetails'));
 
-app.post('/api/cretalead', tokenAuth, lead.create);
+app.post('/api/createlead', tokenAuth, lead.create);
 
 app.post('/api/editlead', tokenAuth, lead.edit);
 
-app.post('/api/makecontact', tokenAuth, require('./server/routes/makecontact'));
+app.get('/api/makecontact/:email', tokenAuth, require('./server/routes/makecontact'));
 
 app.post('/api/startservice', tokenAuth, service.start);
 
-app.post('/api/endservice', tokenAuth, service.end);
+app.post('/api/editservice', tokenAuth, service.edit);
 
 const port = process.env.PORT || 4200;
 app.listen(port, () => console.log(`app is listening at port ${port}....`));
