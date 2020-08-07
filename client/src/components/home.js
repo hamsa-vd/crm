@@ -10,7 +10,8 @@ function Home() {
 	}, []);
 	const guestLogin = (e) => {
 		localStorage.setItem('token', Math.random().toString(36).substring(7));
-		localStorage.setItem('username', 'guest');
+		localStorage.setItem('username', 'Guest');
+		localStorage.setItem('cadre', 'guest');
 	};
 	return (
 		<div className="home_parent">
@@ -22,7 +23,7 @@ function Home() {
 						Register
 					</button>
 				</Link>
-				<Link to="/dashboard">
+				<Link to="/dashboard/leads">
 					<button className="btn btn-outline-light btn-lg m-2" onClick={guestLogin}>
 						<RiUser3Line className="mr-1" /> Guest
 					</button>

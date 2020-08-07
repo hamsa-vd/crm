@@ -91,23 +91,10 @@
 		}
 	}
 	.dashboard-parent {
+		padding: 0px;
 		min-height: 100vh;
-		padding-top: 2rem;
-		background-color: rgb(220, 240, 225);
-		.sub {
-			& > .row {
-				margin-top: 5rem;
-				button {
-					box-shadow: 0.5px 0.5px 1px;
-				}
-				.card {
-					border-radius: 0.5rem;
-					padding: 0.5rem 1rem;
-					display: grid;
-					place-items: center;
-					box-shadow: 1px 1px 0.1rem, -1px -1px 0.1rem rgba(0, 0, 0, 0.205);
-				}
-			}
+		header {
+			padding: 0px;
 		}
 	}
 	.loading {

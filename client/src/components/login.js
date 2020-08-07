@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactLoading from 'react-loading';
 import { toast } from 'react-toastify';
+import { FaHome } from 'react-icons/fa';
 import { FiUser } from 'react-icons/fi';
 import { GiArrowed } from 'react-icons/gi';
 import { RiLoginCircleLine, RiLockPasswordLine, RiUser3Line } from 'react-icons/ri';
@@ -20,20 +21,27 @@ function Login() {
 			if (data.data.status) {
 				localStorage.setItem('token', data.data.out.token);
 				localStorage.setItem('username', data.data.out.username);
+				localStorage.setItem('cadre', data.data.out.cadre);
 				toast.success(data.data.msg);
-				history.push('/dashboard');
+				history.push('/dashboard/leads');
 			} else toast.error(data.data.msg);
 		}
 	};
 	const guestLogin = (e) => {
 		localStorage.setItem('token', Math.random().toString(36).substring(7));
-		localStorage.setItem('username', 'guest');
+		localStorage.setItem('username', 'Guest');
+		localStorage.setItem('cadre', 'guest');
 	};
 	return (
 		<div>
 			{loading && <ReactLoading className="loading" type={'bubbles'} color={'#fff'} />}
 			<div className="parent_login">
 				<div className="container-fluid">
+					<Link to="/" className=" position-fixed fixed-top m-3">
+						<button className="btn btn-outline-light">
+							<FaHome size="1.2rem" /> Home
+						</button>
+					</Link>
 					<div className="col-sm-10 col-lg-4">
 						<form className="row justify-content-around" onSubmit={handleSubmit(onLogin)}>
 							<div className="input-group mb-3">
@@ -71,19 +79,19 @@ function Login() {
 								{errors.password &&
 								errors.password.type === 'required' && <small>password is required</small>}
 							</div>
-							<button type="submit" className="btn btn-outline-light px-4 mt-3">
-								<RiLoginCircleLine className="mr-1" size={'1.2rem'} />login
-							</button>
+							<Link to="/dashboard/leads">
+								<button className="btn btn-outline-light px-4 mt-3" onClick={guestLogin}>
+									<RiUser3Line className="mr-1" size={'1.2rem'} /> Guest
+								</button>
+							</Link>
 							<Link to="/forgot">
 								<button className="btn btn-outline-light px-4 mt-3">
 									<GiArrowed className="mr-1" size={'1.2rem'} />forgot password
 								</button>
 							</Link>
-							<Link to="/dashboard">
-								<button className="btn btn-outline-light px-4 mt-3" onClick={guestLogin}>
-									<RiUser3Line className="mr-1" size={'1.2rem'} /> Guest
-								</button>
-							</Link>
+							<button type="submit" className="btn btn-outline-light px-4 mt-3">
+								<RiLoginCircleLine className="mr-1" size={'1.2rem'} />login
+							</button>
 						</form>
 					</div>
 				</div>

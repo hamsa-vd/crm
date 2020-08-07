@@ -35,14 +35,14 @@ let forgotOptions = (email, id) => ({
 				style="text-decoration:none;color:white">change password</a></button>` // html body
 });
 
-let acceptFriend = (email, name) => ({
+let acceptManager = (email, name, id, manager) => ({
 	from: `"Hamsa Vardhan" <${process.env.EMAIL_USER}>`, // sender address
 	to: email, // list of receivers
-	subject: 'Accept Friend', // Subject line
-	text: `click on the below button to accept ${name} as your friend`, // plain text body
+	subject: 'Accept as a Employee', // Subject line
+	text: `click on the below button to accept ${name} as your manager`, // plain text body
 	html: `<button style="border:none;border-radius:10px;padding:1rem 3rem;background-color:#8595ad;font-size:1rem">
-				<a href="https://hava-crm.netlify.app/passchange/${id}" 
+				<a href="http://localhost:4200/useraccept?id=${id}&mid=&${manager}" 
 				style="text-decoration:none;color:white">Accept ${name}</a></button>` // html body
 });
 
-module.exports = { transporter, activateOptions, forgotOptions, acceptFriend };
+module.exports = { transporter, activateOptions, forgotOptions, acceptManager };

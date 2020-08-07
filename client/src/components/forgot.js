@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { GiLobArrow } from 'react-icons/gi';
 import { AiOutlineMail } from 'react-icons/ai';
+import { FaHome } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 import ReactLoading from 'react-loading';
@@ -20,6 +22,11 @@ function Forgot() {
 	};
 	return (
 		<div className="parent_forgot container-fluid">
+			<Link to="/">
+				<button className="btn btn-outline-light position-fixed fixed-top m-3">
+					<FaHome size="1.2rem" /> Home
+				</button>
+			</Link>
 			{loading && <ReactLoading className="loading" type={'bubbles'} color={'#fff'} />}
 			<div className="col-sm-10 col-lg-4">
 				<div className="row justify-content-around">

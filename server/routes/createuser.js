@@ -20,6 +20,7 @@ module.exports = (req, res) => {
 			if (err) return res.json({ status: false, msg: 'internal error try again', err });
 			const forManager = {
 				email: req.body.email,
+				name: `${req.body.firstname} ${req.body.lastname}`,
 				activated: false
 			};
 			try {

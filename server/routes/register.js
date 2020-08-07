@@ -5,7 +5,7 @@ const mongoUrl = process.env.MONGO_URL;
 const dbName = 'crm';
 
 module.exports = (req, res) => {
-	mongoClient.connect(mongoUrl, async (err, client) => {
+	mongoClient.connect(mongoUrl, { useUnifiedTopology: true }, async (err, client) => {
 		if (err) return res.json({ status: false, msg: 'internal error try again', err });
 		const db = client.db(dbName);
 		const collection = db.collection('managers');

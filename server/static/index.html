@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free CRM api</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://image.flaticon.com/icons/svg/1924/1924476.svg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Vesper+Libre:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+        button:hover a{
+            color: white;
+            text-decoration: none;
+        }
+        blockquote {
+            color: rgb(250, 122, 100);
+        }
+
+        b {
+            color: rgb(21, 196, 108);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        i {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgb(102, 19, 180);
+            font-family: 'Vesper Libre', serif;
+        }
+
+        body {
+            background-color: rgba(245, 239, 239, 0.959);
+        }
+
+        code {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        header {
+            background-color: white;
+            padding: 0.5rem 2rem;
+            box-shadow: -0.2rem 0px 0.25rem black;
+            font-size: 1.5rem;
+        }
+
+        .row {
+            margin-top: 5rem;
+        }
+
+        .row:last-child {
+            margin-bottom: 10rem;
+        }
+
+        .card-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="container-fluid position-fixed fixed-top">
+        <h3 class="d-inline float-left">FREE CRM API</h3>
+        <button class="btn btn-outline-secondary d-inline float-right"> <a href="https://github.com/Hamsa-Vardhan/crm"> view in git </a></button>
+    </header>
+    <main class="  container">
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/register</i></span>
+                <span> <b>METHOD</b> : <i>POST</i> </span>
+            </div>
+            <span class="card-body card-text">
+                <h6>Required Parameters : </h6><code>email, firstname, lastname, password</code>
+                <p>All above mentioned parameters are string type</p>
+                <blockquote>*If needed, extra parameters can be added*</blockquote>
+            </span>
+            <p class="card-footer"> Activation link is sent to mail. Activates account with cadre of manager</p>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/login</i></span>
+                <span> <b>METHOD</b> : <i>POST</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>username(email), password</code>
+                <p>All above mentioned parameters are string type.There is a forgot password option too.</p>
+                <blockquote>*email is primary key*</blockquote>
+            </div>
+            <div class="card-footer">returns json web token, email, cadre of account holder</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/adduser</i></span>
+                <span> <b>METHOD</b> : <i>PUT</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>email</code>
+                <p>cadre of user should be manager. account should already be created.</p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">Acceptance mail is sent to user mail. On acceptance cadre is changed to user.</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/createuser</i></span>
+                <span> <b>METHOD</b> : <i>POST</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>email, firstname, lastname, password</code>
+                <p>creator should be at manager cadre. user should have an account. users account is created
+                    automatically</p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">Activation mail is sent to users mail. On Activation user will have the ability to
+                just view his manager leads and his colleagues</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/removeuser</i></span>
+                <span> <b>METHOD</b> : <i>DELETE</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>email(user), password(manager)</code>
+                <p>One should be at manager cadre to delete user. user is removed from list of users under manager.</p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">returns response Message about the status of user deletion.</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/createlead</i></span>
+                <span> <b>METHOD</b> : <i>POST</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>email, name, status</code>
+                <p>Extra Parameters can be added. Needs to be of manager cadre. Adds lead to list of manager's leads.
+                </p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">returns leads list of the manager</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/editlead</i></span>
+                <span> <b>METHOD</b> : <i>PATCH</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>email, status</code>
+                <p>Edits lead's status details of manager. Needs to be at manager cadre.</p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">returns leads list of the manager</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/makecontact</i></span>
+                <span> <b>METHOD</b> : <i>PUT</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>email as query parameter</code>
+                <p>user that needs to be made contact needs to be a lead. user is removed from leads list and added to
+                    contact.</p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">returns contacts list of the manager</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/startservice</i></span>
+                <span> <b>METHOD</b> : <i>POST</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>name(service), email(customer), status</code>
+                <p>Should be at manager cadre to start a service. Extra Parameters can be added.</p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">returns services list of the manager</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/editservice</i></span>
+                <span> <b>METHOD</b> : <i>PATCH</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>name(service), email(customer)</code>
+                <p>Should be at manager cadre to edit a service. edits status of the service.</p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">returns services list of the manager</div>
+        </div>
+        <div class="row card">
+            <div class="card-header">
+                <span><b>END POINT</b> : <i>/getdetails</i></span>
+                <span> <b>METHOD</b> : <i>GET</i> </span>
+            </div>
+            <div class="card-body card-text">
+                <h5>Required Parameters : </h5>
+                <code>No  Parameters required</code>
+                <p>If users cadre is user, details of the manager is returned</p>
+                <blockquote>*Bearer token needs to be passed*</blockquote>
+            </div>
+            <div class="card-footer">returns list of services, leads, contacts, services, users of the manager or users manager.</div>
+        </div>
+    </main>
+</body>
+
+</html>

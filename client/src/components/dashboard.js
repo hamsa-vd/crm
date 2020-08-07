@@ -1,39 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+import Header from './Header';
+import { useSelector, useDispatch } from 'react-redux';
+import Axios from 'axios';
+import actions from '../redux/actions';
+const authAxios = Axios.create({
+	baseURL: 'http://localhost:4200/api',
+	headers: {
+		Authorization: `Bearer ${localStorage.getItem('token')}`
+	}
+});
 function Dashboard() {
-	const [ leads, setLeads ] = useState(0);
-	const [ contacts, setContacts ] = useState(0);
-	const [ services, setServices ] = useState(0);
+	const [ relation, setRelation ] = useState('leads');
 	const [ redirect, setRedirect ] = useState(false);
+	const [ loading, setLoading ] = useState(false);
+	const params = useParams();
+	const relations = useSelector((state) => state);
+	const dispatch = useDispatch();
 	useEffect(() => {
 		if (!!!localStorage.getItem('token')) setRedirect(true);
+		else {
+			if (localStorage.getItem('cadre') !== 'guest') {
+				(async () => {
+					setLoading(true);
+					(async () => {
+						try {
+							const data = await authAxios.get('/getdetails');
+							console.log(data.data.out);
+							dispatch(actions.allDetails(data.data.out));
+							setLoading(false);
+						} catch (err) {
+							console.log(err);
+						}
+					})();
+				})();
+			}
+		}
 		return () => localStorage.clear();
 	}, []);
+	useEffect(
+		() => {
+			setRelation(params.relation);
+		},
+		[ params ]
+	);
 	return (
 		<div className="container-fluid dashboard-parent">
 			{redirect && <Redirect to="/login" />}
-			<div className="container-fluid container-lg sub">
-				<div className="row justify-content-around">
-					<button className="btn btn-outline-success">create user</button>
-				</div>
-				<div className="row justify-content-around">
-					<div className="card btn btn-outline-dark col-sm-11 col-md-7 col-lg-3 mt-3">
-						<div className="card-body">
-							<h2 className="card-text">leads -- 0</h2>
-						</div>
-					</div>
-					<div className="card btn btn-outline-dark col-sm-11 col-md-7 col-lg-3 mt-3">
-						<div className="card-body">
-							<h2 className="card-text" />
-						</div>
-					</div>
-					<div className="card btn btn-outline-dark col-sm-11 col-md-7 col-lg-3 mt-3">
-						<div className="card-body">
-							<h2 className="card-text">contacts -- 0</h2>
-						</div>
-					</div>
-				</div>
-			</div>
+			<header className="container-fluid">
+				<Header />
+				{loading && <ReactLoading className="loading" type={'bubbles'} color={'#fff'} />}
+			</header>
+			<div className="container-lg container-fluid">{params.relation}</div>
 		</div>
 	);
 }

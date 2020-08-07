@@ -111,28 +111,12 @@
 }
 
 .App .dashboard-parent {
+  padding: 0px;
   min-height: 100vh;
-  padding-top: 2rem;
-  background-color: #dcf0e1;
 }
 
-.App .dashboard-parent .sub > .row {
-  margin-top: 5rem;
-}
-
-.App .dashboard-parent .sub > .row button {
-  -webkit-box-shadow: 0.5px 0.5px 1px;
-          box-shadow: 0.5px 0.5px 1px;
-}
-
-.App .dashboard-parent .sub > .row .card {
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
-  -webkit-box-shadow: 1px 1px 0.1rem, -1px -1px 0.1rem rgba(0, 0, 0, 0.205);
-          box-shadow: 1px 1px 0.1rem, -1px -1px 0.1rem rgba(0, 0, 0, 0.205);
+.App .dashboard-parent header {
+  padding: 0px;
 }
 
 .App .loading {

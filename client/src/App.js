@@ -8,21 +8,25 @@ import Forgot from './components/forgot';
 import Activate from './components/activate';
 import Passchange from './components/passchnage';
 import Dashboard from './components/dashboard';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 function App() {
 	return (
-		<Router>
-			<div className="App">
-				<Switch>
-					<Route path="/" exact component={Home} />
-					<Route path="/login" component={Login} />
-					<Route path="/register" component={Register} />
-					<Route path="/activate/:id" exact component={Activate} />
-					<Route path="/forgot" component={Forgot} />
-					<Route path="/dashboard" component={Dashboard} />
-					<Route path="/passchange/:id" exact component={Passchange} />
-				</Switch>
-			</div>
-		</Router>
+		<Provider store={store}>
+			<Router>
+				<div className="App">
+					<Switch>
+						<Route path="/" exact component={Home} />
+						<Route path="/login" component={Login} />
+						<Route path="/register" component={Register} />
+						<Route path="/activate/:id" exact component={Activate} />
+						<Route path="/forgot" component={Forgot} />
+						<Route path="/dashboard/:relation" component={Dashboard} />
+						<Route path="/passchange/:id" exact component={Passchange} />
+					</Switch>
+				</div>
+			</Router>
+		</Provider>
 	);
 }
 

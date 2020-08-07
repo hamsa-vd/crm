@@ -30,6 +30,7 @@ module.exports = (req, res) => {
 						client.close();
 						return res.status().json({ status: false, msg: 'invalid password' });
 					}
+					console.log(req.body.username);
 					const token = jwt.sign(
 						{ username: req.body.username, cadre: hash.cadre },
 						process.env.JWT_SECRET_KEY
@@ -41,7 +42,7 @@ module.exports = (req, res) => {
 					return res.status(200).json({
 						status: true,
 						msg: 'successfully logged in',
-						out: { username: req.body.username, token: token }
+						out: { username: req.body.username, token: token, cadre: hash.cadre }
 					});
 				});
 			else {
