@@ -39,5 +39,7 @@ app.post('/api/startservice', tokenAuth, service.start);
 
 app.patch('/api/editservice', tokenAuth, service.edit);
 
+app.post('/api/checkPass', tokenAuth, user.check);
+
 const port = process.env.PORT || 4200;
 app.listen(port, () => console.log(`app is listening at port ${port}....`));

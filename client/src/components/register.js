@@ -54,23 +54,6 @@ function Register() {
 								<small style={{ color: 'white' }}>all fields are required</small>
 								<div className="input-group-prepend">
 									<span className="input-group-text" id="basic-addon1">
-										<FiUser color="brown" className="mr-1" /> Username
-									</span>
-								</div>
-								<input
-									type="text"
-									className="form-control"
-									name="username"
-									aria-label="Username"
-									aria-describedby="basic-addon1"
-									ref={register({ required: true })}
-								/>
-								{errors.username &&
-								errors.username.type === 'required' && <small>username is required</small>}
-							</div>
-							<div className="input-group mb-3">
-								<div className="input-group-prepend">
-									<span className="input-group-text" id="basic-addon1">
 										<AiOutlineMail color="brown" className="mr-1" /> email
 									</span>
 								</div>
@@ -83,6 +66,40 @@ function Register() {
 									ref={register({ required: true })}
 								/>
 								{errors.email && errors.email.type === 'required' && <small>email is required</small>}
+							</div>
+							<div className="input-group mb-3">
+								<div className="input-group-prepend">
+									<span className="input-group-text" id="basic-addon1">
+										<FiUser color="brown" className="mr-1" /> firstname
+									</span>
+								</div>
+								<input
+									type="text"
+									className="form-control"
+									name="firstname"
+									aria-label="lastname"
+									aria-describedby="basic-addon1"
+									ref={register({ required: true })}
+								/>
+								{errors.firstname &&
+								errors.firstname.type === 'required' && <small>firstname is required</small>}
+							</div>
+							<div className="input-group mb-3">
+								<div className="input-group-prepend">
+									<span className="input-group-text" id="basic-addon1">
+										<FiUser color="brown" className="mr-1" /> lastname
+									</span>
+								</div>
+								<input
+									type="text"
+									className="form-control"
+									name="lastname"
+									aria-label="lastname"
+									aria-describedby="basic-addon1"
+									ref={register({ required: true })}
+								/>
+								{errors.lastname &&
+								errors.lastname.type === 'required' && <small>lastname is required</small>}
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">

@@ -11,12 +11,12 @@ const create = (req, res) => {
 		const collection = db.collection('managers');
 		let data = await collection.findOne({ email: req.username });
 		if (data.leads.some((v) => v.email === req.body.email))
-			return res.json({ status: true, msg: 'lead with this email already exists' });
+			return res.json({ status: false, msg: 'lead with this email already exists' });
 		try {
 			await collection.updateOne({ email: req.username }, { $push: { leads: req.body } });
 			data = await collection.findOne({ email: req.username });
 		} catch (error) {
-			return res.json({ status: true, msg: 'Internal Server Error', err: error });
+			return res.json({ status: false, msg: 'Internal Server Error', err: error });
 		}
 		client.close();
 		return res.json({ status: true, msg: 'Successfully added', out: data.leads });

@@ -1,4 +1,4 @@
-const { mongodb } = require('../requires');
+const { mongodb, bcrypt } = require('../requires');
 const { transporter, acceptManager } = require('../nodemail');
 const mongoClient = mongodb.MongoClient;
 const objectId = mongodb.ObjectID;
@@ -72,4 +72,19 @@ const accept = (req, res) => {
 	});
 };
 
-module.exports = { add, accept };
+const check = (req, res) => {
+	mongoClient.connect(mongoUrl, { useUnifiedTopology: true }, async (err, client) => {
+		if (err) return res.json({ status: false });
+		const db = client.db(dbName);
+		const collection = db.collection(`${req.cadre}s`);
+		const data = await collection.findOne({ email: req.username });
+		try {
+			const match = await bcrypt.compare(req.body.password, data.password);
+			if (match) return res.json({ status: true });
+			else return res.json({ status: false });
+		} catch (err) {
+			return res.json({ status: false });
+		}
+	});
+};
+module.exports = { add, accept, check };

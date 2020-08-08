@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import Header from './Header';
 import { useSelector, useDispatch } from 'react-redux';
-import Axios from 'axios';
 import actions from '../redux/actions';
-const authAxios = Axios.create({
-	baseURL: 'http://localhost:4200/api',
-	headers: {
-		Authorization: `Bearer ${localStorage.getItem('token')}`
+import rest from '../rest.service';
+import { createMedia } from '@artsy/fresnel';
+import Leads from './leads/leads';
+import Contacts from './contacts';
+import Users from './users/users';
+import Services from './services/services';
+import guestData from '../redux/guestdata';
+
+const { MediaContextProvider, Media } = createMedia({
+	breakpoints: {
+		nothing: 0,
+		tablet: 800
 	}
 });
+
 function Dashboard() {
 	const [ relation, setRelation ] = useState('leads');
 	const [ redirect, setRedirect ] = useState(false);
@@ -26,7 +34,7 @@ function Dashboard() {
 					setLoading(true);
 					(async () => {
 						try {
-							const data = await authAxios.get('/getdetails');
+							const data = await rest.getDetails();
 							console.log(data.data.out);
 							dispatch(actions.allDetails(data.data.out));
 							setLoading(false);
@@ -35,7 +43,7 @@ function Dashboard() {
 						}
 					})();
 				})();
-			}
+			} else dispatch(actions.allDetails(guestData));
 		}
 		return () => localStorage.clear();
 	}, []);
@@ -45,6 +53,32 @@ function Dashboard() {
 		},
 		[ params ]
 	);
+
+	const showChild = () => {
+		switch (params.relation) {
+			case 'leads':
+				return <Leads />;
+			case 'contacts':
+				return <Contacts />;
+			case 'users':
+				return <Users />;
+			case 'services':
+				return <Services />;
+			default:
+				return (
+					<div className="container-fluid row justify-content-center align-items-center">
+						Only avaliable fields are{' '}
+						{Object.keys(relations).map((v) => (
+							<Link to={`/dashboard/${v}`}>
+								{' '}
+								<button className="btn btn-outline-info m-3">{v}</button>
+							</Link>
+						))}
+					</div>
+				);
+		}
+	};
+
 	return (
 		<div className="container-fluid dashboard-parent">
 			{redirect && <Redirect to="/login" />}
@@ -52,7 +86,7 @@ function Dashboard() {
 				<Header />
 				{loading && <ReactLoading className="loading" type={'bubbles'} color={'#fff'} />}
 			</header>
-			<div className="container-lg container-fluid">{params.relation}</div>
+			<div className="container-lg container-fluid">{showChild()}</div>
 		</div>
 	);
 }

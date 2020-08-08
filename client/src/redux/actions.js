@@ -1,41 +1,41 @@
 import actions from './action_types';
 
-const allDetails = (data) => ({
+export const allDetails = (data) => ({
 	type: actions.ALL_DETAILS,
 	payload: data
 });
 
-const createUser = (users) => ({
+export const createUser = (users) => ({
 	type: actions.CREATE_USER,
 	payload: { users }
 });
 
-const removeUser = (users) => ({
+export const removeUser = (users) => ({
 	type: actions.REMOVE_USER,
 	payload: { users }
 });
 
-const createLead = (leads) => ({
+export const createLead = (leads) => ({
 	type: actions.CREATE_LEAD,
 	payload: { leads }
 });
 
-const editLead = (leads) => ({
+export const editLead = (leads) => ({
 	type: actions.EDIT_LEAD,
 	payload: { leads }
 });
 
-const makeContact = ({ contacts, leads }) => ({
+export const makeContact = ({ contacts, leads }) => ({
 	type: actions.MAKE_CONTACT,
 	payload: { contacts, leads }
 });
 
-const startService = (services) => ({
+export const startService = (services) => ({
 	type: actions.START_SERVICE,
 	payload: { services }
 });
 
-const editService = (services) => ({
+export const editService = (services) => ({
 	type: actions.EDIT_SERVICE,
 	payload: { services }
 });
