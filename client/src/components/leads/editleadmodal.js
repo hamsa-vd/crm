@@ -11,7 +11,7 @@ function EditLeadModal(props) {
 		{ key: 'Contacted', text: 'Contacted', value: 'Contacted' },
 		{ key: 'Qualified', text: 'Qualified', value: 'Qualified' },
 		{ key: 'Lost', text: 'Lost', value: 'Lost' },
-		{ key: 'Cancelled', text: 'New', value: 'New' },
+		{ key: 'Cancelled', text: 'Cancelled', value: 'Cancelled' },
 		{ key: 'Confirmed', text: 'Confirmed', value: 'Confirmed' }
 	];
 	return (
@@ -20,17 +20,20 @@ function EditLeadModal(props) {
 				onClose={() => setOpen(false)}
 				onOpen={() => setOpen(true)}
 				open={open}
-				trigger={<Button inverted content="edit" color="blue" />}
+				trigger={<Button inverted content="edit status" color="green" icon="edit" />}
+				style={{ position: 'relative', height: 'unset' }}
+				closeIcon
 			>
-				<Modal.Header>Edit Lead</Modal.Header>
+				<Modal.Header>Edit Status</Modal.Header>
 				<Modal.Content>
 					<Modal.Description>
 						<Form.Select
+							fluid
 							label="status"
 							placeholder={leads.find((v) => v.email === props.email).status}
 							options={options}
 						/>
-						<Form.Button content="edit" type="submit" inverted color="green" />
+						<Form.Button content="edit" type="submit" icon="edit" inverted color="green" className="m-3" />
 					</Modal.Description>
 				</Modal.Content>
 				<Modal.Actions>

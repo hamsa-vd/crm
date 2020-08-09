@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CreateLeadModal from './createleadmodal';
 import editLeadModal from './editleadmodal';
 import { createMedia } from '@artsy/fresnel';
-import { Table, Header, Button, Popup, Form, Card } from 'semantic-ui-react';
+import { Table, Header, Button, Popup, Form, Icon, Card } from 'semantic-ui-react';
 import EditLeadModal from './editleadmodal';
 
 const { Media, MediaContextProvider } = createMedia({
@@ -19,9 +19,39 @@ const options = [
 	{ key: 'Contacted', text: 'Contacted', value: 'Contacted' },
 	{ key: 'Qualified', text: 'Qualified', value: 'Qualified' },
 	{ key: 'Lost', text: 'Lost', value: 'Lost' },
-	{ key: 'Cancelled', text: 'New', value: 'New' },
+	{ key: 'Cancelled', text: 'Cancelled', value: 'Cancelled' },
 	{ key: 'Confirmed', text: 'Confirmed', value: 'Confirmed' }
 ];
+
+const smallDisplay = (key, obj) => {
+	switch (key) {
+		case 'name':
+			return <Card.Header className="ml-3 mt-2 text-capitalize">{obj[key]}</Card.Header>;
+		case 'email':
+			return (
+				<Card.Description>
+					{' '}
+					<Icon name="envelope" color="blue" /> {obj[key]}{' '}
+				</Card.Description>
+			);
+		case 'status':
+			return (
+				<Card.Description>
+					{' '}
+					<Icon name="star" color="yellow" />
+					<Icon name="star" color="yellow" />
+					<Icon name="star" color="yellow" /> <b> {obj[key]} </b>
+				</Card.Description>
+			);
+		default:
+			return (
+				<Card.Description>
+					{' '}
+					{key} : {obj[key]}{' '}
+				</Card.Description>
+			);
+	}
+};
 
 function Leads() {
 	const leads = useSelector((state) => state.leads);
@@ -34,18 +64,16 @@ function Leads() {
 			<div className="row">
 				{leads.length ? (
 					<MediaContextProvider className="container-fluid">
-						<Media at="nothing" className="row">
-							<Card>
-								{leads.map((obj) => (
-									<Card.Content>
-										{Object.keys(obj).map((v, i) => (
-											<p>
-												{v} : {obj[v]}
-											</p>
-										))}
+						<Media at="nothing" className="row justify-content-around">
+							{leads.map((obj, idx) => (
+								<Card className="col-10" key={idx}>
+									<Card.Content>{Object.keys(obj).map((v, i) => smallDisplay(v, obj))}</Card.Content>
+									<Card.Content className="row justify-content-around">
+										<EditLeadModal email={obj['email']} />
+										<Button content="make into contact" color="twitter" />
 									</Card.Content>
-								))}
-							</Card>
+								</Card>
+							))}
 						</Media>
 						<Media at="tablet" className="row">
 							<Table celled>
@@ -87,6 +115,7 @@ function Leads() {
 														/>
 														<Form.Button
 															content="edit"
+															icon="edit"
 															type="submit"
 															inverted
 															color="green"

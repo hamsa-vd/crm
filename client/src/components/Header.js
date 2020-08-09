@@ -102,7 +102,10 @@ function Header() {
 							key={v}
 							as={NavLink}
 							active={display === v}
-							onClick={(e) => setDisplay(v)}
+							onClick={(e) => {
+								setDisplay(v);
+								setSlide((initial) => !initial);
+							}}
 							to={`/dashboard/${v}`}
 						>
 							{v}
