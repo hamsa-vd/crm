@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CreateLeadModal from './createleadmodal';
 import editLeadModal from './editleadmodal';
 import { createMedia } from '@artsy/fresnel';
-import { Table, Header, Button, Popup, Form, Icon, Card } from 'semantic-ui-react';
+import { Table, Header, Button, Popup, Form, Icon, Card, Divider } from 'semantic-ui-react';
 import EditLeadModal from './editleadmodal';
 
 const { Media, MediaContextProvider } = createMedia({
@@ -54,8 +54,26 @@ const smallDisplay = (key, obj) => {
 };
 
 function Leads() {
-	const leads = useSelector((state) => state.leads);
+	const { leads, contacts } = useSelector((state) => ({ leads: state.leads, contacts: state.contacts }));
 	const dispatch = useDispatch();
+
+	const makeContact = (email, index) => {
+		const lead = leads.find((v) => v.email === email);
+		leads.splice(index, 1);
+		delete lead.status;
+		contacts.push(lead);
+		dispatch(actions.makeContact({ contacts, leads }));
+	};
+	const editSelectSubmit = (val, email) => {
+		leads.map((v) => {
+			if (v.email === email) {
+				v.status = val;
+			}
+			return v;
+		});
+		dispatch(actions.editLead(leads));
+	};
+
 	return (
 		<div className="container-fluid">
 			<div className="row mt-md-5 mb-2 px-0 justify-content-end">
@@ -69,8 +87,12 @@ function Leads() {
 								<Card className="col-10" key={idx}>
 									<Card.Content>{Object.keys(obj).map((v, i) => smallDisplay(v, obj))}</Card.Content>
 									<Card.Content className="row justify-content-around">
-										<EditLeadModal email={obj['email']} />
-										<Button content="make into contact" color="twitter" />
+										<EditLeadModal email={obj.email} />
+										<Button
+											content="make into contact"
+											color="twitter"
+											onClick={() => makeContact(obj.email, idx)}
+										/>
 									</Card.Content>
 								</Card>
 							))}
@@ -96,7 +118,6 @@ function Leads() {
 													))}
 												</Table.Row>
 											}
-											very
 											flowing
 											hoverable
 											position="bottom center"
@@ -109,22 +130,22 @@ function Leads() {
 												<Card.Content>
 													<Form>
 														<Form.Select
-															label="status"
+															label="edit status"
 															placeholder={obj.status}
 															options={options}
-														/>
-														<Form.Button
-															content="edit"
-															icon="edit"
-															type="submit"
-															inverted
-															color="green"
+															onChange={(e, { value }) =>
+																editSelectSubmit(value, obj.email)}
 														/>
 													</Form>{' '}
-													<span> (or) </span>
 												</Card.Content>
+												<Divider horizontal>Or</Divider>
 												<Card.Content>
-													<Button content="make into a contact" inverted color="twitter" />
+													<Button
+														content="make into a contact"
+														inverted
+														color="twitter"
+														onClick={() => makeContact(obj.email, idx)}
+													/>
 												</Card.Content>
 											</Card>
 										</Popup>

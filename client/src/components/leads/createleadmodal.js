@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createLead } from '../../redux/actions';
+
 function CreateLeadModal() {
 	const [ open, setOpen ] = useState(false);
+	const [ lead, setLead ] = useState({ email: '', name: '', status: '' });
 	const leads = useSelector((state) => state.leads);
 	const dispatch = useDispatch(createLead);
 	const options = [
@@ -18,7 +20,12 @@ function CreateLeadModal() {
 		position: 'relative',
 		height: 'unset'
 	};
-	const handleSubmit = () => {};
+	const handleSubmit = () => {
+		leads.push(lead);
+		dispatch(createLead(leads));
+		setLead((initial) => ({ email: '', name: '', status: '' }));
+		setOpen(false);
+	};
 	return (
 		<React.Fragment>
 			<Modal
@@ -32,19 +39,36 @@ function CreateLeadModal() {
 				<Modal.Header>create a lead</Modal.Header>
 				<Modal.Content scrolling>
 					<Modal.Description>
-						<Form>
-							<Form.Input fluid required label="email" placeholder="Enter email" type="email" />
-							<Form.Input fluid required label="name" placeholder="Enter name" type="text" />
+						<Form onSubmit={handleSubmit}>
+							<Form.Input
+								fluid
+								required
+								name="email"
+								label="email"
+								placeholder="Enter email"
+								type="email"
+								onChange={(e, { value }) => setLead((initial) => ({ ...initial, email: value }))}
+							/>
+							<Form.Input
+								fluid
+								required
+								name="name"
+								label="name"
+								placeholder="Enter name"
+								type="text"
+								onChange={(e, { value }) => setLead((initial) => ({ ...initial, name: value }))}
+							/>
 							<Form.Select
 								required
 								search
 								fluid
+								name="status"
 								label="status"
 								options={options}
 								placeholder="status"
-								error={false && { content: 'hajksj' }}
+								onChange={(e, { value }) => setLead((initial) => ({ ...initial, status: value }))}
 							/>
-							<Form.Button type="submit" content="submit" onClick={handleSubmit} inverted color="green" />
+							<Form.Button type="submit" content="submit" inverted color="green" />
 						</Form>
 					</Modal.Description>
 				</Modal.Content>

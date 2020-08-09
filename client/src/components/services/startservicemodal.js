@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { startService } from '../../redux/actions';
 function StartServiceModal() {
 	const [ open, setOpen ] = useState(false);
+	const [ service, setService ] = useState({ name: '', email: '', status: '' });
 	const services = useSelector((state) => state.services);
-	const dispatch = useDispatch(startService);
+	const dispatch = useDispatch();
 	const options = [
 		{ key: 'Created', text: 'Created', value: 'Created' },
 		{ key: 'Open', text: 'Open', value: 'Open' },
@@ -18,7 +19,11 @@ function StartServiceModal() {
 		position: 'relative',
 		height: 'unset'
 	};
-	const handleSubmit = () => {};
+	const handleSubmit = () => {
+		services.push(service);
+		dispatch(startService(services));
+		setOpen(false);
+	};
 	return (
 		<React.Fragment>
 			<Modal
@@ -26,15 +31,29 @@ function StartServiceModal() {
 				onOpen={() => setOpen(true)}
 				open={open}
 				dimmer="blurring"
-				trigger={<Button content="create a lead" inverted color="violet" />}
+				trigger={<Button content="start a service" inverted color="violet" />}
 				style={modalDefaultStyles}
 			>
-				<Modal.Header>create a lead</Modal.Header>
+				<Modal.Header>start a service</Modal.Header>
 				<Modal.Content scrolling>
 					<Modal.Description>
-						<Form>
-							<Form.Input fluid required label="customer" placeholder="Enter email" type="email" />
-							<Form.Input fluid required label="service" placeholder="Enter name" type="text" />
+						<Form onSubmit={handleSubmit}>
+							<Form.Input
+								fluid
+								required
+								label="customer"
+								placeholder="Enter email"
+								type="email"
+								onChange={(e, { value }) => setService((initial) => ({ ...initial, email: value }))}
+							/>
+							<Form.Input
+								fluid
+								required
+								label="service"
+								placeholder="Enter name"
+								type="text"
+								onChange={(e, { value }) => setService((initial) => ({ ...initial, name: value }))}
+							/>
 							<Form.Select
 								required
 								search
@@ -42,9 +61,9 @@ function StartServiceModal() {
 								label="status"
 								options={options}
 								placeholder="status"
-								error={false && { content: 'compulsory' }}
+								onChange={(e, { value }) => setService((initial) => ({ ...initial, status: value }))}
 							/>
-							<Form.Button type="submit" content="submit" onClick={handleSubmit} inverted color="green" />
+							<Form.Button type="submit" content="submit" inverted color="green" />
 						</Form>
 					</Modal.Description>
 				</Modal.Content>

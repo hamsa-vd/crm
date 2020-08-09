@@ -27,14 +27,14 @@ const smallDisplay = (key, obj) => {
 			return <Card.Header className="ml-3 mt-2 text-capitalize">{obj[key]}</Card.Header>;
 		case 'email':
 			return (
-				<Card.Description>
+				<Card.Description className="m-2">
 					{' '}
 					<Icon name="envelope" color="blue" /> {obj[key]}{' '}
 				</Card.Description>
 			);
 		case 'status':
 			return (
-				<Card.Description>
+				<Card.Description className="m-2">
 					{' '}
 					<Icon name="star" color="yellow" />
 					<Icon name="star" color="yellow" />
@@ -53,21 +53,16 @@ const smallDisplay = (key, obj) => {
 function Services() {
 	const services = useSelector((state) => state.services);
 	const dispatch = useDispatch();
-	const [ open, setOpen ] = useState(false);
 
-	const handleSelected = (val, key) => {
-		setOpen(false);
-	};
+	const handleEdit = (email, val) =>
+		dispatch(editService(services.map((v) => (v.email === email ? { ...v, status: val } : v))));
 
-	const editService = (email) => (
+	const EditService = (email) => (
 		<Popup
 			trigger={<Button icon="edit" content="edit status" primary />}
 			hoverable
 			flowing
-			open={open}
-			on="click"
-			onOpen={() => setOpen(true)}
-			onClose={() => setOpen(false)}
+			style={{ width: '200px' }}
 		>
 			<Segment>
 				<Header>Edit Status</Header>
@@ -77,7 +72,7 @@ function Services() {
 						placeholder="status"
 						options={options}
 						fluid
-						onChange={(e, { value, key }) => handleSelected(value, key)}
+						onChange={(e, { value }) => handleEdit(email, value)}
 					/>
 				</Form>
 			</Segment>
@@ -97,7 +92,7 @@ function Services() {
 								<Card className="col-10" key={idx}>
 									<Card.Content>{Object.keys(obj).map((v, i) => smallDisplay(v, obj))}</Card.Content>
 									<Card.Content className="row justify-content-around">
-										{editService(obj['email'])}
+										{EditService(obj['email'])}
 									</Card.Content>
 								</Card>
 							))}
@@ -135,7 +130,7 @@ function Services() {
 														label="user"
 														placeholder="user"
 														options={options}
-														onChange={(e, { value, key }) => handleSelected(value, key)}
+														onChange={(e, { value }) => handleEdit(obj.email, value)}
 													/>
 												</Form>
 											</Segment>

@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Form, Modal } from 'semantic-ui-react';
-
+import { createUser } from '../../redux/actions';
 function UserCreateModal() {
 	const [ open, setOpen ] = useState(false);
-	const handleSubmit = (e) => console.log(e);
+	const users = useSelector((state) => state.users);
+	const [ user, setUser ] = useState({ email: '', name: '' });
+	const dispatch = useDispatch();
+	const CreateUser = () => {
+		users.push(user);
+		dispatch(createUser(users));
+		alert('password with activation link is sent to email which can be changed using forgot password');
+		setOpen(false);
+	};
 	return (
 		<React.Fragment>
 			<Modal
@@ -18,10 +26,24 @@ function UserCreateModal() {
 				<Modal.Header>create a user</Modal.Header>
 				<Modal.Content scrolling>
 					<Modal.Description>
-						<Form>
-							<Form.Input fluid required label="email" placeholder="Enter email" type="email" />
-							<Form.Input fluid required label="name" placeholder="Enter name" type="text" />
-							<Form.Button type="submit" content="submit" onClick={handleSubmit} inverted color="green" />
+						<Form onSubmit={CreateUser}>
+							<Form.Input
+								fluid
+								required
+								label="email"
+								placeholder="Enter email"
+								type="email"
+								onChange={(e, { value }) => setUser((initial) => ({ ...initial, email: value }))}
+							/>
+							<Form.Input
+								fluid
+								required
+								label="name"
+								placeholder="Enter name"
+								type="text"
+								onChange={(e, { value }) => setUser((initial) => ({ ...initial, name: value }))}
+							/>
+							<Form.Button type="submit" content="submit" inverted color="green" />
 						</Form>
 					</Modal.Description>
 				</Modal.Content>

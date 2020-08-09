@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Grid, Button, Segment, Popup, Form, Header, Icon } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createUser } from '../../redux/actions';
+import { createUser, removeUser } from '../../redux/actions';
 import UserCreateModal from './usercreatemodal';
 import { MdDelete } from 'react-icons/md';
 
@@ -17,6 +17,16 @@ function Users() {
 		dispatch(createUser(users));
 		setOpen(false);
 	};
+
+	const [ password, setPassword ] = useState('');
+
+	const passCheck = (index) => {
+		if (!password) return;
+		if (password !== 'g@L') return alert('password incorrect');
+		users.splice(index, 1);
+		dispatch(removeUser(users));
+	};
+
 	const [ open, setOpen ] = useState(false);
 	return (
 		<div className="container-fluid p-0">
@@ -54,7 +64,7 @@ function Users() {
 							</Grid.Column>
 						))}
 						<Grid.Column computer={2} mobile={3} tablet={2}>
-							<Header content="remove" />
+							<Header content="del" />
 						</Grid.Column>
 					</Grid.Row>
 					{users.map((obj, idx) => (
@@ -72,7 +82,10 @@ function Users() {
 									style={{ width: '300px' }}
 									position="left center"
 									trigger={
-										<MdDelete style={{ fontSize: '1.75rem', cursor: 'pointer', color: 'red' }} />
+										<MdDelete
+											style={{ fontSize: '1.75rem', cursor: 'pointer', color: 'red' }}
+											onClick={() => alert('Guest Password is g@L')}
+										/>
 									}
 									hoverable
 									flowing
@@ -80,8 +93,13 @@ function Users() {
 								>
 									<Segment>
 										<Header color="red">Password</Header>
-										<Form>
-											<Form.Input type="text" fluid placeholder="password" />
+										<Form onSubmit={() => passCheck(idx)}>
+											<Form.Input
+												type="text"
+												fluid
+												placeholder="password"
+												onChange={(e, { value }) => setPassword(value)}
+											/>
 											<Form.Button type="submit" inverted color="green" content="check" />
 										</Form>
 									</Segment>
