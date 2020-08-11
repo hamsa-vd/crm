@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { startService } from '../../redux/actions';
+import rest from '../../rest.service';
+import { toast } from 'react-toastify';
 function StartServiceModal() {
 	const [ open, setOpen ] = useState(false);
 	const [ service, setService ] = useState({ name: '', email: '', status: '' });
@@ -19,7 +21,16 @@ function StartServiceModal() {
 		position: 'relative',
 		height: 'unset'
 	};
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
+		if (localStorage.getItem('cadre') === 'user') return toast.info('only managers can start a service');
+		if (localStorage.getItem('cadre') === 'manager')
+			try {
+				const data = await rest.startService(service);
+				if (!data.data.status) return toast.error(data.data.msg);
+			} catch (err) {
+				console.log(err);
+				return;
+			}
 		services.push(service);
 		dispatch(startService(services));
 		setOpen(false);

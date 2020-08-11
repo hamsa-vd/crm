@@ -35,13 +35,16 @@ let forgotOptions = (email, id) => ({
 				style="text-decoration:none;color:white">change password</a></button>` // html body
 });
 
-let acceptManager = (email, name, id, manager) => ({
+let acceptManager = (email, password, name, id, manager) => ({
 	from: `"Hamsa Vardhan" <${process.env.EMAIL_USER}>`, // sender address
 	to: email, // list of receivers
 	subject: 'Accept as a Employee', // Subject line
 	text: `click on the below button to accept ${name} as your manager`, // plain text body
-	html: `<button style="border:none;border-radius:10px;padding:1rem 3rem;background-color:#8595ad;font-size:1rem">
-				<a href="http://localhost:4200/useraccept?id=${id}&mid=&${manager}" 
+	html: `
+	<h5>your password to login is ${password}. After logging in change it using forgot password</h5>
+	<br />
+	<button style="border:none;border-radius:10px;padding:1rem 3rem;background-color:#8595ad;font-size:1rem">
+				<a href="http://hava-crm/api/useraccept?id=${id}&mid=&${manager}" 
 				style="text-decoration:none;color:white">Accept ${name}</a></button>` // html body
 });
 

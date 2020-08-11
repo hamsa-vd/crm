@@ -2,15 +2,25 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Form, Modal } from 'semantic-ui-react';
 import { createUser } from '../../redux/actions';
+import rest from '../../rest.service';
+import { toast } from 'react-toastify';
 function UserCreateModal() {
 	const [ open, setOpen ] = useState(false);
 	const users = useSelector((state) => state.users);
 	const [ user, setUser ] = useState({ email: '', name: '' });
 	const dispatch = useDispatch();
-	const CreateUser = () => {
+	const CreateUser = async () => {
+		if (localStorage.getItem('cadre') === 'manager')
+			try {
+				const data = await rest.createUser(user);
+				if (!data.data.status) return toast.error(data.data.msg);
+			} catch (err) {
+				console.log(err);
+				return;
+			}
 		users.push(user);
 		dispatch(createUser(users));
-		alert('password with activation link is sent to email which can be changed using forgot password');
+		toast.info('password with activation link is sent to email which can be changed using forgot password');
 		setOpen(false);
 	};
 	return (

@@ -13,12 +13,13 @@ const add = (req, res) => {
 		const collection = db.collection('managers');
 		const user = await collection.findOne({ email: req.body.email });
 		let manager = await collection.findOne({ email: req.username });
+		const random = Math.random().toString(36).substr(7);
 		try {
 			await collection.updateOne(
 				{ email: req.username },
 				{
 					$push: {
-						users: { email: user.email, name: `${user.firstname} ${user.lastname}`, activated: false }
+						users: { email: user.email, name: user.name, password: random, activated: false }
 					}
 				}
 			);
@@ -26,7 +27,13 @@ const add = (req, res) => {
 			return res.json({ status: false, msg: 'unable to send mail' });
 		}
 		transporter.sendMail(
-			acceptManager(req.body.email, `${manager.firstname} ${manager.lastname}`, user['_id'], manager['_id']),
+			acceptManager(
+				req.body.email,
+				random,
+				`${manager.firstname} ${manager.lastname}`,
+				user['_id'],
+				manager['_id']
+			),
 			(err, info) => {
 				if (err) {
 					client.close();
@@ -68,7 +75,7 @@ const accept = (req, res) => {
 		}
 
 		client.close();
-		return redirect('https://localhost:3000/login');
+		return redirect('https://hava-crm.netlify.app/login');
 	});
 };
 
@@ -87,4 +94,24 @@ const check = (req, res) => {
 		}
 	});
 };
-module.exports = { add, accept, check };
+
+const manager = (req, res) => {
+	if (req.cadre === 'user') return res.json({ status: false, msg: 'You are not authorized' });
+	mongoClient.connect(mongoUrl, { useUnifiedTopology: true }, async (err, client) => {
+		if (err) return res.json({ status: false });
+		const db = client.db(dbName);
+		const collection = db.collection(`managers`);
+		try {
+			const data = await collection.find({}).toArray();
+			return res.json({
+				status: true,
+				msg: 'all details of managers',
+				managers: data.map((v) => ({ email: v.email, name: v.name }))
+			});
+		} catch (err) {
+			return res.json({ status: false, msg: 'mongo error try again !!' });
+		}
+	});
+};
+
+module.exports = { add, accept, check, manager };

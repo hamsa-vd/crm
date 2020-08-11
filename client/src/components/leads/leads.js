@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import actions from '../../redux/actions';
-import { createLead, editLead } from '../../rest.service';
+import rest from '../../rest.service';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateLeadModal from './createleadmodal';
 import editLeadModal from './editleadmodal';
@@ -54,31 +54,49 @@ const smallDisplay = (key, obj) => {
 };
 
 function Leads() {
-	const { leads, contacts } = useSelector((state) => ({ leads: state.leads, contacts: state.contacts }));
+	let { leads, contacts } = useSelector((state) => ({ leads: state.leads, contacts: state.contacts }));
 	const dispatch = useDispatch();
 
-	const makeContact = (email, index) => {
+	const makeContact = async (email, index) => {
+		if (localStorage.getItem('cadre') === 'user') return;
+		if (localStorage.getItem('cadre') === 'manager')
+			try {
+				const data = await rest.makeContact(email);
+				console.log(data.data.out);
+			} catch (error) {
+				console.log(error);
+			}
 		const lead = leads.find((v) => v.email === email);
 		leads.splice(index, 1);
 		delete lead.status;
 		contacts.push(lead);
 		dispatch(actions.makeContact({ contacts, leads }));
 	};
-	const editSelectSubmit = (val, email) => {
-		leads.map((v) => {
+	const editSelectSubmit = async (val, email) => {
+		if (localStorage.getItem('cadre') === 'user') return;
+		leads = leads.map((v) => {
 			if (v.email === email) {
 				v.status = val;
 			}
 			return v;
 		});
+		if (localStorage.getItem('cadre') === 'manager')
+			try {
+				const data = await rest.editLead(leads.find((v) => v.email === email));
+				console.log(data.data.out);
+			} catch (error) {
+				console.log(error);
+			}
 		dispatch(actions.editLead(leads));
 	};
 
 	return (
 		<div className="container-fluid">
-			<div className="row mt-md-5 mb-2 px-0 justify-content-end">
-				<CreateLeadModal />
-			</div>
+			{localStorage.getItem('cadre') !== 'user' && (
+				<div className="row mt-md-5 mb-2 px-0 justify-content-end">
+					<CreateLeadModal />
+				</div>
+			)}
 			<div className="row">
 				{leads.length ? (
 					<MediaContextProvider className="container-fluid">
@@ -86,14 +104,16 @@ function Leads() {
 							{leads.map((obj, idx) => (
 								<Card className="col-10" key={idx}>
 									<Card.Content>{Object.keys(obj).map((v, i) => smallDisplay(v, obj))}</Card.Content>
-									<Card.Content className="row justify-content-around">
-										<EditLeadModal email={obj.email} />
-										<Button
-											content="make into contact"
-											color="twitter"
-											onClick={() => makeContact(obj.email, idx)}
-										/>
-									</Card.Content>
+									{localStorage.getItem('cadre') !== 'user' && (
+										<Card.Content className="row justify-content-around">
+											<EditLeadModal email={obj.email} />
+											<Button
+												content="make into contact"
+												color="twitter"
+												onClick={() => makeContact(obj.email, idx)}
+											/>
+										</Card.Content>
+									)}
 								</Card>
 							))}
 						</Media>
@@ -108,48 +128,58 @@ function Leads() {
 									</Table.Row>
 								</Table.Header>
 								<Table.Body style={{ cursor: 'pointer' }}>
-									{leads.map((obj, idx) => (
-										<Popup
-											trigger={
+									{leads.map(
+										(obj, idx) =>
+											localStorage.getItem('cadre') !== 'user' ? (
+												<Popup
+													trigger={
+														<Table.Row key={idx}>
+															<Table.Cell textAlign="center">{idx}</Table.Cell>
+															{Object.keys(obj).map((v, index) => (
+																<Table.Cell key={index}>{obj[v]}</Table.Cell>
+															))}
+														</Table.Row>
+													}
+													flowing
+													hoverable
+													position="bottom center"
+												>
+													<Card>
+														<Card.Content>
+															<Card.Header>{obj.name}</Card.Header>
+															<Card.Meta>{obj.email}</Card.Meta>
+														</Card.Content>
+														<Card.Content>
+															<Form>
+																<Form.Select
+																	label="edit status"
+																	placeholder={obj.status}
+																	options={options}
+																	onChange={(e, { value }) =>
+																		editSelectSubmit(value, obj.email)}
+																/>
+															</Form>{' '}
+														</Card.Content>
+														<Divider horizontal>Or</Divider>
+														<Card.Content>
+															<Button
+																content="make into a contact"
+																inverted
+																color="twitter"
+																onClick={() => makeContact(obj.email, idx)}
+															/>
+														</Card.Content>
+													</Card>
+												</Popup>
+											) : (
 												<Table.Row key={idx}>
 													<Table.Cell textAlign="center">{idx}</Table.Cell>
 													{Object.keys(obj).map((v, index) => (
 														<Table.Cell key={index}>{obj[v]}</Table.Cell>
 													))}
 												</Table.Row>
-											}
-											flowing
-											hoverable
-											position="bottom center"
-										>
-											<Card>
-												<Card.Content>
-													<Card.Header>{obj.name}</Card.Header>
-													<Card.Meta>{obj.email}</Card.Meta>
-												</Card.Content>
-												<Card.Content>
-													<Form>
-														<Form.Select
-															label="edit status"
-															placeholder={obj.status}
-															options={options}
-															onChange={(e, { value }) =>
-																editSelectSubmit(value, obj.email)}
-														/>
-													</Form>{' '}
-												</Card.Content>
-												<Divider horizontal>Or</Divider>
-												<Card.Content>
-													<Button
-														content="make into a contact"
-														inverted
-														color="twitter"
-														onClick={() => makeContact(obj.email, idx)}
-													/>
-												</Card.Content>
-											</Card>
-										</Popup>
-									))}
+											)
+									)}
 								</Table.Body>
 							</Table>
 						</Media>

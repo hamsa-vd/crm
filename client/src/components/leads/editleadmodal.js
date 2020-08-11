@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button, Form } from 'semantic-ui-react';
 import { editLead } from '../../redux/actions';
+import rest from '../../rest.service';
 function EditLeadModal(props) {
 	const [ open, setOpen ] = useState(false);
-	const { leads } = useSelector((state) => ({ leads: state.leads }));
+	let { leads } = useSelector((state) => ({ leads: state.leads }));
 	const dispatch = useDispatch();
 	const options = [
 		{ key: 'new', text: 'New', value: 'New' },
@@ -17,13 +18,20 @@ function EditLeadModal(props) {
 
 	const [ val, setVal ] = useState('');
 
-	const editSelectSubmit = () => {
-		leads.map((v) => {
+	const editSelectSubmit = async () => {
+		leads = leads.map((v) => {
 			if (v.email === props.email) {
 				v.status = val;
 			}
 			return v;
 		});
+		if (localStorage.getItem('cadre') === 'manager')
+			try {
+				const data = await rest.editLead(leads.find((v) => v.email === props.email));
+				console.log(data.data);
+			} catch (error) {
+				console.log(error);
+			}
 		dispatch(editLead(leads));
 		setVal('');
 		setOpen(false);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createLead } from '../../redux/actions';
-
+import rest from '../../rest.service';
 function CreateLeadModal() {
 	const [ open, setOpen ] = useState(false);
 	const [ lead, setLead ] = useState({ email: '', name: '', status: '' });
@@ -20,8 +20,15 @@ function CreateLeadModal() {
 		position: 'relative',
 		height: 'unset'
 	};
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		leads.push(lead);
+		if (localStorage.getItem('cadre') === 'manager')
+			try {
+				const data = await rest.createLead(lead);
+				console.log(data.data.out);
+			} catch (error) {
+				console.log(error);
+			}
 		dispatch(createLead(leads));
 		setLead((initial) => ({ email: '', name: '', status: '' }));
 		setOpen(false);

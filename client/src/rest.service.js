@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const http = Axios.create({
-	baseURL: 'http://localhost:4200/api',
+	baseURL: 'http://hava-crm.herokuapp.com/api',
 	headers: {
 		Authorization: `Bearer ${localStorage.getItem('token')}`
 	}
@@ -11,7 +11,7 @@ const addUser = (email) => http.put('/adduser', { email });
 
 const createUser = (user) => http.post('/createuser', user);
 
-const removeUser = (email, password) => http.delete('/removeuser', { email, password });
+const removeUser = (email, password) => http.delete('/removeuser', { email });
 
 const getDetails = (user) => http.get('/getdetails');
 
@@ -25,6 +25,10 @@ const startService = (service) => http.post('/startservice', service);
 
 const editService = (service) => http.patch('/editservice', service);
 
+const checkPass = (password) => http.post('/checkpass', { password });
+
+const allManagers = () => http.get('/allmanagers');
+
 export default {
 	addUser,
 	createUser,
@@ -34,5 +38,7 @@ export default {
 	editLead,
 	makeContact,
 	startService,
-	editService
+	editService,
+	checkPass,
+	allManagers
 };

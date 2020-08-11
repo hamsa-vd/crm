@@ -4,6 +4,8 @@ import { editService } from '../../redux/actions';
 import { Card, Popup, Form, Table, Button, Header, Icon, Segment } from 'semantic-ui-react';
 import { createMedia } from '@artsy/fresnel';
 import StartServiceModal from './startservicemodal';
+import rest from '../../rest.service';
+import { toast } from 'react-toastify';
 
 const options = [
 	{ key: 'Created', text: 'Created', value: 'Created' },
@@ -54,8 +56,18 @@ function Services() {
 	const services = useSelector((state) => state.services);
 	const dispatch = useDispatch();
 
-	const handleEdit = (email, val) =>
+	const handleEdit = (email, val) => {
+		if (localStorage.getItem('cadre') === 'user') return toast.info('only manager can edit a service');
+		if (localStorage.getItem('cadre') === 'manager')
+			try {
+				const data = rest.editService({ ...services.find((v) => v.email === email), status: val });
+				if (!data.data.status) return toast.error(data.data.msg);
+			} catch (err) {
+				console.log(err);
+				return;
+			}
 		dispatch(editService(services.map((v) => (v.email === email ? { ...v, status: val } : v))));
+	};
 
 	const EditService = (email) => (
 		<Popup
@@ -81,9 +93,11 @@ function Services() {
 
 	return (
 		<div className="container-fluid">
-			<div className="row mt-md-5 mb-2 px-0 justify-content-end">
-				<StartServiceModal />
-			</div>
+			{localStorage.getItem('cadre') !== 'user' && (
+				<div className="row mt-md-5 mb-2 px-0 justify-content-end">
+					<StartServiceModal />
+				</div>
+			)}
 			<div className="row">
 				{services.length ? (
 					<MediaContextProvider className="container-fluid">
@@ -92,7 +106,7 @@ function Services() {
 								<Card className="col-10" key={idx}>
 									<Card.Content>{Object.keys(obj).map((v, i) => smallDisplay(v, obj))}</Card.Content>
 									<Card.Content className="row justify-content-around">
-										{EditService(obj['email'])}
+										{localStorage.getItem('cadre') !== 'user' && EditService(obj['email'])}
 									</Card.Content>
 								</Card>
 							))}
@@ -108,34 +122,45 @@ function Services() {
 									</Table.Row>
 								</Table.Header>
 								<Table.Body style={{ cursor: 'pointer' }}>
-									{services.map((obj, idx) => (
-										<Popup
-											trigger={
+									{services.map(
+										(obj, idx) =>
+											localStorage.getItem('cadre') !== 'user' ? (
+												<Popup
+													trigger={
+														<Table.Row key={idx}>
+															<Table.Cell textAlign="center">{idx}</Table.Cell>
+															{Object.keys(obj).map((v, index) => (
+																<Table.Cell key={index}>{obj[v]}</Table.Cell>
+															))}
+														</Table.Row>
+													}
+													very
+													flowing
+													hoverable
+													position="bottom center"
+												>
+													<Segment>
+														<Header>Edit Status</Header>
+														<Form>
+															<Form.Select
+																label="user"
+																placeholder="user"
+																options={options}
+																onChange={(e, { value }) =>
+																	handleEdit(obj.email, value)}
+															/>
+														</Form>
+													</Segment>
+												</Popup>
+											) : (
 												<Table.Row key={idx}>
 													<Table.Cell textAlign="center">{idx}</Table.Cell>
 													{Object.keys(obj).map((v, index) => (
 														<Table.Cell key={index}>{obj[v]}</Table.Cell>
 													))}
 												</Table.Row>
-											}
-											very
-											flowing
-											hoverable
-											position="bottom center"
-										>
-											<Segment>
-												<Header>Edit Status</Header>
-												<Form>
-													<Form.Select
-														label="user"
-														placeholder="user"
-														options={options}
-														onChange={(e, { value }) => handleEdit(obj.email, value)}
-													/>
-												</Form>
-											</Segment>
-										</Popup>
-									))}
+											)
+									)}
 								</Table.Body>
 							</Table>
 						</Media>
