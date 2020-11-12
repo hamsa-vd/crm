@@ -3,19 +3,18 @@ import { useParams, Redirect } from 'react-router-dom';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 function Activate() {
-	const [ redirect, setRedirect ] = useState(false);
+	const [redirect, setRedirect] = useState(false);
 	const { id } = useParams();
 	useEffect(
 		() => {
 			(async () => {
-				const data = await Axios.get(`https://hava-crm.herokuapp.com/api/activate/${id}`);
+				const data = await Axios.patch(`https://hava-crm.herokuapp.com/api/activate/${id}`);
 				if (data.data.status) toast.success(data.data.msg);
 				else toast.error(data.data.msg);
 				setRedirect(true);
 			})();
-			return () => {};
 		},
-		[ id ]
+		[id]
 	);
 	return (
 		<div className="parent-activate">

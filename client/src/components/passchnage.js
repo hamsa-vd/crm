@@ -6,9 +6,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 function Passchange() {
-	const [ loading, setLoading ] = useState(false);
-	const [ pass, setPass ] = useState('');
-	const [ changepass, setChangepass ] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [pass, setPass] = useState('');
+	const [changepass, setChangepass] = useState('');
 	const history = useHistory();
 	const { id } = useParams();
 	const handleSubmit = async () => {

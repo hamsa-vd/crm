@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const http = Axios.create({
-	baseURL: 'http://hava-crm.herokuapp.com/api',
+	baseURL: 'https://hava-crm.herokuapp.com/api',
 	headers: {
 		Authorization: `Bearer ${localStorage.getItem('token')}`
 	}

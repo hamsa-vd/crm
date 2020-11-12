@@ -8,8 +8,8 @@ import { toast } from 'react-toastify';
 import ReactLoading from 'react-loading';
 
 function Forgot() {
-	const [ email, setEmail ] = useState('');
-	const [ loading, setLoading ] = useState(false);
+	const [email, setEmail] = useState('');
+	const [loading, setLoading] = useState(false);
 	const handleSubmit = async () => {
 		if (email) {
 			console.log(email);

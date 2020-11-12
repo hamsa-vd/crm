@@ -9,7 +9,7 @@ import ReactLoading from 'react-loading';
 import { useHistory, Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 function Register() {
-	const [ loading, setLoading ] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const { register, handleSubmit, errors } = useForm({ mode: 'onChange' });
 	const history = useHistory();
 	const guestLogin = (e) => {
@@ -82,7 +82,7 @@ function Register() {
 									ref={register({ required: true })}
 								/>
 								{errors.firstname &&
-								errors.firstname.type === 'required' && <small>firstname is required</small>}
+									errors.firstname.type === 'required' && <small>firstname is required</small>}
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
@@ -99,7 +99,7 @@ function Register() {
 									ref={register({ required: true })}
 								/>
 								{errors.lastname &&
-								errors.lastname.type === 'required' && <small>lastname is required</small>}
+									errors.lastname.type === 'required' && <small>lastname is required</small>}
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
@@ -116,7 +116,7 @@ function Register() {
 									ref={register({ required: true })}
 								/>
 								{errors.password &&
-								errors.password.type === 'required' && <small>password is required</small>}
+									errors.password.type === 'required' && <small>password is required</small>}
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
@@ -133,7 +133,7 @@ function Register() {
 									ref={register({ required: true })}
 								/>
 								{errors.changePassword &&
-								errors.changePassword.type === 'required' && <small>changePassword is required</small>}
+									errors.changePassword.type === 'required' && <small>changePassword is required</small>}
 							</div>
 							<button className="btn btn-outline-light m-3" type="submit">
 								<RiLoginBoxLine size="1.2rem" /> Sign Up

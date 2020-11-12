@@ -9,22 +9,29 @@ import { useForm } from 'react-hook-form';
 import { useHistory, Link } from 'react-router-dom';
 import Axios from 'axios';
 function Login() {
-	const [ loading, setLoading ] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const history = useHistory();
 	const { register, handleSubmit, errors } = useForm({ mode: 'onChange' });
 	const onLogin = async (formdata) => {
 		if (!Object.keys(errors).length) {
 			setLoading(true);
-			// const data = await Axios.post('https://hava-crm.herokuapp.com/api/login', formdata);
-			const data = await Axios.post('http://hava-crm/herokuapp.com/api/login', formdata);
-			setLoading(false);
-			if (data.data.status) {
-				localStorage.setItem('token', data.data.out.token);
-				localStorage.setItem('username', data.data.out.username);
-				localStorage.setItem('cadre', data.data.out.cadre);
-				toast.success(data.data.msg);
-				history.push('/dashboard/leads');
-			} else toast.error(data.data.msg);
+			// const data = await Axios.post('https://localhost:1234/api/login', formdata);
+			try {
+				const data = await Axios.post('https://hava-crm.herokuapp.com/api/login', formdata);
+				console.log(data)
+				setLoading(false);
+				if (data.data.status) {
+					localStorage.setItem('token', data.data.out.token);
+					localStorage.setItem('username', data.data.out.username);
+					localStorage.setItem('cadre', data.data.out.cadre);
+					toast.success(data.data.msg);
+					history.push('/dashboard/leads');
+				} else toast.error(data.data.msg);
+			}
+			catch (error) {
+				setLoading(false);
+				toast.error("unable reach servers")
+			}
 		}
 	};
 	const guestLogin = (e) => {
@@ -60,7 +67,7 @@ function Login() {
 									name="username"
 								/>
 								{errors.username &&
-								errors.username.type === 'required' && <small>username is required</small>}
+									errors.username.type === 'required' && <small>username is required</small>}
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
@@ -77,7 +84,7 @@ function Login() {
 									name="password"
 								/>
 								{errors.password &&
-								errors.password.type === 'required' && <small>password is required</small>}
+									errors.password.type === 'required' && <small>password is required</small>}
 							</div>
 							<Link to="/dashboard/leads">
 								<button className="btn btn-outline-light px-4 mt-3" onClick={guestLogin}>

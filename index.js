@@ -43,5 +43,5 @@ app.post('/api/checkpass', tokenAuth, user.check);
 
 app.get('/api/allmanagers', tokenAuth);
 
-const port = process.env.PORT || 4200;
+const port = process.env.PORT || 1234;
 app.listen(port, () => console.log(`app is listening at port ${port}....`));
